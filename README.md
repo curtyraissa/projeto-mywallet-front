@@ -1,6 +1,6 @@
 ![Imagem 1](./layout-projeto.png "Imagem 1")
 
-<h1 align="center">Track it - ReactJS </h1>
+<h1 align="center">My Wallet - Front </h1>
 
 ✅ Requisitos
 
