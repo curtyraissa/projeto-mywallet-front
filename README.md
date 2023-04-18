@@ -98,7 +98,7 @@
 
 ## 🚀 &nbsp;Links
 
-- [Figma](...).<br/>
+- [Figma](https://www.figma.com/file/p37uJdpZWRLED7YEwDFfUd/MyWallet?node-id=0-1).<br/>
 - [Deploy](...).<br/>
 
 <hr/>
