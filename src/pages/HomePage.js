@@ -1,8 +1,44 @@
-import styled from "styled-components"
-import { BiExit } from "react-icons/bi"
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import styled from "styled-components";
+import { BiExit } from "react-icons/bi";
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
+import UserContext from "../contextAPI/userContext.js";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+
+const objListItem = [
+  {
+    data: "30/11",
+    description: "Almoço mãe",
+    value: "120,00",
+    color: "negativo",
+  },
+  {
+    data: "15/11",
+    description: "Salário",
+    value: "3000,00",
+    color: "positivo",
+  },
+];
 
 export default function HomePage() {
+  const navigate = useNavigate();
+  const { user } = UserContext(UserContext);
+  const [transactions, setTransactions] = useState(null);
+  const [total, setTotal] = useState(null);
+
+  // renderizar user para home
+  useEffect(() => {
+    if (!user.token){
+      navigate(`/`);
+    }
+    newTransaction()
+  },[])
+
+  function newTransaction(type) {
+      navigate(`/nova-transacao/${type}`);
+  }
+
   return (
     <HomeContainer>
       <Header>
@@ -12,50 +48,59 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          {objListItem.map((item) => (
+            <ListItem
+              data={item.data}
+              description={item.description}
+              value={item.value}
+              color={item.color}
+            />
+          ))}
         </ul>
-
         <article>
           <strong>Saldo</strong>
           <Value color={"positivo"}>2880,00</Value>
         </article>
       </TransactionsContainer>
 
-
-      <ButtonsContainer>
-        <button>
+      <ButtonsLink to="/nova-transacao/:tipo">
+        <button onClick={() => newTransaction()}>
           <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
+          <p>
+            Nova <br /> entrada
+          </p>
         </button>
-        <button>
+        <button onClick={() => newTransaction()}>
           <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
+          <p>
+            Nova <br />
+            saída
+          </p>
         </button>
-      </ButtonsContainer>
-
+      </ButtonsLink>
     </HomeContainer>
-  )
+  );
+}
+
+function ListItem({ data, description, value, color }) {
+  return (
+    <>
+      <ListItemContainer>
+        <div>
+          <span>{data}</span>
+          <strong>{description}</strong>
+        </div>
+        <Value color={color}>{value}</Value>
+      </ListItemContainer>
+    </>
+  );
 }
 
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 50px);
-`
+`;
 const Header = styled.header`
   display: flex;
   align-items: center;
@@ -64,7 +109,7 @@ const Header = styled.header`
   margin-bottom: 15px;
   font-size: 26px;
   color: white;
-`
+`;
 const TransactionsContainer = styled.article`
   flex-grow: 1;
   background-color: #fff;
@@ -76,19 +121,20 @@ const TransactionsContainer = styled.article`
   justify-content: space-between;
   article {
     display: flex;
-    justify-content: space-between;   
+    justify-content: space-between;
     strong {
       font-weight: 700;
       text-transform: uppercase;
     }
   }
-`
-const ButtonsContainer = styled.section`
+`;
+// const ButtonsContainer = styled.section`
+const ButtonsLink = styled(Link)`
   margin-top: 15px;
   margin-bottom: 0;
   display: flex;
   gap: 15px;
-  
+
   button {
     width: 50%;
     height: 115px;
@@ -101,12 +147,12 @@ const ButtonsContainer = styled.section`
       font-size: 18px;
     }
   }
-`
+`;
 const Value = styled.div`
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "positivo" ? "green" : "red")};
-`
+`;
 const ListItemContainer = styled.li`
   display: flex;
   justify-content: space-between;
@@ -118,4 +164,4 @@ const ListItemContainer = styled.li`
     color: #c6c6c6;
     margin-right: 10px;
   }
-`
+`;
