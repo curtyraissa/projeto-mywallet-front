@@ -1,14 +1,16 @@
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
 import MyWalletLogo from "../components/MyWalletLogo";
-import apiAuth from "../services/apiAuth";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
+import apiAuth from "../services/apiAuth";
 import { UserContext } from "../contexts/UserContext";
 
 export default function SignInPage() {
-  const navigate = { useNavigate };
-  const [form, setForm] = useState({ email: "", senha: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  console.log(user);
 
   function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,17 +18,16 @@ export default function SignInPage() {
 
   function handleSingIn(e) {
     e.preventDefault();
+
     apiAuth
-      .login(form)
+      .signIn(form)
       .then((res) => {
-        console.log(res.data);
-        const { id, nome, token } = res.data;
-        setUser({ id, nome, token });
-        navigate("/home");
+        const { id, name, token } = res.data;
+        setUser({ id, name, token });
+        // navigate("/home");
       })
       .catch((err) => {
-        console.log(err.response.data);
-        alert(err.response.data.message);
+        console.log(err.response.data.message);
       });
   }
 
@@ -43,11 +44,10 @@ export default function SignInPage() {
           onChange={handleForm}
         />
         <input
-          name="senha"
+          name="password"
           placeholder="Senha"
           type="password"
           required
-          autocomplete="new-password"
           value={form.senha}
           onChange={handleForm}
         />

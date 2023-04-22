@@ -5,11 +5,12 @@ import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
 import { useState } from "react"
+import ErrorPage from "./pages/ErrorPage"
 import { UserContext } from "./contexts/UserContext"
 
 
 export default function App() {
-  const [user, setUser] = useState({token : '', username : ''})
+  const [user, setUser] = useState({})
 
   return (
     <PagesContainer>
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/cadastro" element={<SignUpPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
       </UserContext.Provider>

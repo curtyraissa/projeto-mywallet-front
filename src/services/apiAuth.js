@@ -1,17 +1,16 @@
-// import axios from "axios";
-// import dotenv from "dotenv";
+import axios from "axios";
 
-// dotenv.config();
+const BASE_URL = "http://localhost:5000";
 
-// function login(body) {
-//   const promise = axios.post(`${process.env.BASE_URL}`, body);
-//   return promise;
-// }
+function signIn(body) {
+  const promise = axios.post(`${BASE_URL}/`, body);
+  return promise;
+}
 
-// function cadastro(body) {
-//   const promise = axios.post(`${process.env.BASE_URL}/cadastro`, body);
-//   return promise;
-// }
+function signUp(body) {
+  const promise = axios.post(`${BASE_URL}/cadastro`, body);
+  return promise;
+}
 
-// const apiAuth = { login, cadastro };
-// export default apiAuth;
+const apiAuth = { signIn, signUp };
+export default apiAuth;
