@@ -6,7 +6,7 @@ import apiAuth from "../services/apiAuth";
 import { UserContext } from "../contexts/UserContext";
 
 export default function SignInPage() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "", senha: "" });
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ export default function SignInPage() {
       .then((res) => {
         const { id, name, token } = res.data;
         setUser({ id, name, token });
-        // navigate("/home");
+        navigate("/home");
       })
       .catch((err) => {
         console.log(err.response.data.message);
@@ -44,7 +44,7 @@ export default function SignInPage() {
           onChange={handleForm}
         />
         <input
-          name="password"
+          name="senha"
           placeholder="Senha"
           type="password"
           required
