@@ -1,38 +1,30 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { useState } from "react";
-// import axios from "axios";
 import MyWalletLogo from "../components/MyWalletLogo";
 import styled from "styled-components";
+import apiAuth from "../services/apiAuth";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  // const [form, setForm] = useState({
-  //   name: "",
-  //   email: "",
-  //   password: "",
-  //   confirmPassword: "",
-  // });
+  const [form, setForm] = useState({ nome: "", email: "", senha: "" });
 
-  // function submitForm(e) {
-  //   setForm({ ...form, [e.target.name]: e.target.value });
-  // }
+  function handleForm(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  } 
 
   function handleSingUp(e) {
-    e.preventDefault(); //nao atualizar a página
-    navigate("/");
-    //   //verifica as senhas
-    //   if (form.password !== form.confirmPassword) {
-    //     alert("Infelizmente suas senhas estao diferentes!");
-    //   }
-    //   axios
-    //     .post(`${process.env.BASE_URL}/sign-up`, form)
-    //     .then((res) => {
-    //       console.log(res.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err.response.data);
-    //       alert(err.response.data.message);
-    //     });
+    e.preventDefault();
+
+    apiAuth
+      .signUp(form)
+      .then((res) => {
+        navigate("/");
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert(err.response.data.message);
+      });
   }
 
   return (
@@ -42,36 +34,30 @@ export default function SignUpPage() {
         <input
           placeholder="Nome"
           type="text"
-          disabled={false}
           required
-          // value={form.name}
-          // onChange={handleSingUp}
+          value={form.nome}
+          onChange={handleForm}
         />
         <input
           placeholder="E-mail"
           type="email"
-          disabled={false}
           required
-          // value={form.email}
-          // onChange={handleSingUp}
+          value={form.email}
+          onChange={handleForm}
         />
         <input
           placeholder="Senha"
           type="password"
-          disabled={false}
           required
-          // autocomplete="new-password"
-          // value={form.password}
-          // onChange={handleSingUp}
+          value={form.senha}
+          onChange={handleForm}
         />
         <input
           placeholder="Confirme a senha"
           type="password"
-          disabled={false}
           required
-          // autocomplete="new-password"
-          // value={form.confirmPassword}
-          // onChange={handleSingUp}
+          value={form.senha}
+          onChange={handleForm}
         />
         <button disabled={false} type="submit">
           Cadastrar
