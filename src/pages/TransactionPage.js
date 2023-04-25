@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom"
 
 export default function TransactionsPage() {
   const navigate = useNavigate()
+  const tipo = "entrada"
 
-  function handleHome(){
+  function handleHome(e){
+    e.preventDefault();
     navigate("/home")
   }
 
@@ -14,7 +16,7 @@ export default function TransactionsPage() {
       <form onSubmit={handleHome}>
         <input placeholder="Valor" type="text"/>
         <input placeholder="Descrição" type="text" />
-        <button>Salvar TRANSAÇÃO</button>
+        <button>Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
   )

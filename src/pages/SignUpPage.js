@@ -7,14 +7,19 @@ import apiAuth from "../services/apiAuth";
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ nome: "", email: "", senha: "" });
+  const [verificarSenha, setVerificarSenha] = useState("");
 
-  function handleForm(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  function handleForm({name, value, confirmarSenha}) {
+    setForm({ ...form, [name]: value });
+    setVerificarSenha(confirmarSenha)
   } 
 
   function handleSingUp(e) {
     e.preventDefault();
 
+    if(form.senha !== verificarSenha){
+      alert("Senhas diferentes!")
+    }
     apiAuth
       .signUp(form)
       .then((res) => {
@@ -24,6 +29,14 @@ export default function SignUpPage() {
       .catch((err) => {
         console.log(err.response.data);
         alert(err.response.data.message);
+        const {status} = err.response
+
+        if(status === 422){
+          return (alert("Senha minima 3 caracteres"))
+        }
+        if(status === 409){
+          return (alert("E-mail já cadastrado"))
+        }
       });
   }
 
@@ -56,7 +69,7 @@ export default function SignUpPage() {
           placeholder="Confirme a senha"
           type="password"
           required
-          value={form.senha}
+          value={form.verificarSenha}
           onChange={handleForm}
         />
         <button disabled={false} type="submit">

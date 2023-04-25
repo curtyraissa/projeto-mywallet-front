@@ -4,13 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import apiAuth from "../services/apiAuth";
 import { UserContext } from "../contexts/UserContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", senha: "" });
   const { user, setUser } = useContext(UserContext);
+  const { auth, setAuth } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   console.log(user);
+  console.log(auth);
 
   function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,6 +28,7 @@ export default function SignInPage() {
       .then((res) => {
         const { id, name, token } = res.data;
         setUser({ id, name, token });
+        setAuth(token)
         navigate("/home");
       })
       .catch((err) => {

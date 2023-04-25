@@ -6,22 +6,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-const objListItem = [
-  {
-    data: "30/11",
-    description: "Almoço mãe",
-    value: "120,00",
-    color: "negativo",
-  },
-  {
-    data: "15/11",
-    description: "Salário",
-    value: "3000,00",
-    color: "positivo",
-  },
-];
-
 export default function HomePage() {
+  const objListItem = [
+    {
+      data: "30/11",
+      descricao: "Almoço mãe",
+      valor: "120,00",
+      color: "negativo",
+      tipo: "saida",
+    },
+    {
+      data: "15/11",
+      description: "Salário",
+      valor: "3000,00",
+      color: "positivo",
+      tipo: "entrada",
+    },
+  ];
+
   const navigate = useNavigate();
   // const { user } = UserContext(UserContext);
   const [transactions, setTransactions] = useState(null);
@@ -35,42 +37,52 @@ export default function HomePage() {
   //   newTransaction()
   // },[])
 
-  function newTransaction(type) {
-      navigate(`/nova-transacao/${type}`);
+  let soma = 0;
+  objListItem.forEach((item) => {
+    if (item.type === "entrada"){
+      soma = soma + Number(item.value)
+    } else {
+      soma = soma - Number(item.value)
+    }
+  })
+
+  function novaTransacao(type) {
+    navigate(`/nova-transacao/${type}`);
   }
 
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, Raissa</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
         <ul>
-          {objListItem.map((item) => (
+          {objListItem.map((item, index) => (
             <ListItem
+              key={index}
               data={item.data}
-              description={item.description}
-              value={item.value}
+              description={item.descricao}
+              value={item.valor}
               color={item.color}
             />
           ))}
         </ul>
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={"positivo"}>{soma}</Value>
         </article>
       </TransactionsContainer>
 
       <ButtonsLink to="/nova-transacao/:tipo">
-        <button onClick={() => newTransaction()}>
+        <button onClick={() => novaTransacao("entrada")}>
           <AiOutlinePlusCircle />
           <p>
             Nova <br /> entrada
           </p>
         </button>
-        <button onClick={() => newTransaction()}>
+        <button onClick={() => novaTransacao("saida")}>
           <AiOutlineMinusCircle />
           <p>
             Nova <br />
