@@ -10,11 +10,11 @@ import { UserContext } from "./contexts/UserContext"
 
 
 export default function App() {
-  // const [user, setUser] = useState({})
+  const [user, setUser] = useState({})
 
   return (
     <PagesContainer>
-      {/* <UserContext.Provider value={{user, setUser}}> */}
+      <UserContext.Provider value={{user, setUser}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignInPage />} />
@@ -24,7 +24,7 @@ export default function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
-      {/* </UserContext.Provider> */}
+      </UserContext.Provider>
     </PagesContainer>
   )
 }

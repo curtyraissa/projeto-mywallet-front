@@ -8,13 +8,10 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", senha: "" });
-  const { user, setUser } = useContext(UserContext);
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setUser } = useContext(UserContext);
+  const { setAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
-  console.log(user);
-  console.log(auth);
 
   function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value });

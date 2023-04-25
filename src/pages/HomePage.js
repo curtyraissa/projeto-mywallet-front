@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-// import UserContext from "../contextAPI/userContext.js";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 
 export default function HomePage() {
   const objListItem = [
@@ -25,17 +22,6 @@ export default function HomePage() {
   ];
 
   const navigate = useNavigate();
-  // const { user } = UserContext(UserContext);
-  const [transactions, setTransactions] = useState(null);
-  const [total, setTotal] = useState(null);
-
-  // renderizar user para home
-  // useEffect(() => {
-  //   if (!user.token){
-  //     navigate(`/`);
-  //   }
-  //   newTransaction()
-  // },[])
 
   let soma = 0;
   objListItem.forEach((item) => {
